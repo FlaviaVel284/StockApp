@@ -1,8 +1,8 @@
 package com.company.server;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import com.company.client.Client;
+
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -21,19 +21,14 @@ public class ServerThread extends Thread {
     public void run () {
         try {
             // Reading input from Client
-            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
 
-            output = new PrintWriter(socket.getOutputStream(), true);
+            //output = new PrintWriter(socket.getOutputStream(), true);
 
             while (true) {
-                String outputString = input.readLine();
+                Client outputClient = (Client)inputStream.readObject();
 
-                if (outputString.equals("exit")) {
-                    break;
-                }
-
-                printToAllClients(outputString);
-                System.out.println("Server recieved " + outputString);
+                System.out.println("Server recieved " + outputClient);
             }
 
         } catch (Exception e) {

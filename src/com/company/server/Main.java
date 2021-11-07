@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class Main {
 
     public static final int PORT = 5000;
+    public static StockMarket stockMarket;
 
     public static void main(String[] args) {
 
@@ -14,7 +15,7 @@ public class Main {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (true) {
                 Socket socket = serverSocket.accept();
-                ServerThread serverThread = new ServerThread(socket, threadList);
+                ServerThread serverThread = new ServerThread(socket, threadList, stockMarket);
 
                 threadList.add(serverThread);
                 serverThread.start();

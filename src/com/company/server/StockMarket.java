@@ -9,8 +9,13 @@ public class StockMarket {
     private ArrayList<Stock> offers;
     private ArrayList<Stock> requests;
 
-    synchronized void buyAt (double number, double price) {
-        for (Stock s: offers) {
+    public StockMarket() {
+        this.offers = new ArrayList<>();
+        this.requests = new ArrayList<>();
+    }
+
+    void buyAt(double number, double price) {
+        for (Stock s : offers) {
             if (s.getPrice() == price) {
                 if (s.getNumber() > number) {
                     s.setNumber(s.getNumber() - number);
@@ -30,8 +35,8 @@ public class StockMarket {
         }
     }
 
-    synchronized void sellAt (double number, double price) {
-        for (Stock s: requests) {
+    void sellAt(double number, double price) {
+        for (Stock s : requests) {
             if (s.getPrice() == price) {
                 if (s.getNumber() > number) {
                     s.setNumber(s.getNumber() - number);
@@ -51,4 +56,11 @@ public class StockMarket {
         }
     }
 
+    public ArrayList<Stock> getOffers() {
+        return offers;
+    }
+
+    public ArrayList<Stock> getRequests() {
+        return requests;
+    }
 }

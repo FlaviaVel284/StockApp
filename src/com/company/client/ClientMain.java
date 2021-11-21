@@ -43,7 +43,9 @@ public class ClientMain {
                         String priceInput = scanner.nextLine();
                         System.out.print("Enter the quantity you want to buy: ");
                         String quantityInput = scanner.nextLine();
-                        break;
+                        output.println("buy");
+                        output.println(quantityInput);
+                        output.println(priceInput);
                     }
 
                     if (userInput.equals("sell")) {
@@ -51,7 +53,18 @@ public class ClientMain {
                         String priceInput = scanner.nextLine();
                         System.out.print("Enter the quantity you want to sell: ");
                         String quantityInput = scanner.nextLine();
-                        break;
+                        output.println("sell");
+                        output.println(quantityInput);
+                        output.println(priceInput);
+                    }
+
+                    if (userInput.equals("trades")) {
+                        output.println("trades");
+                        String trade = input.readLine();
+                        while (!trade.equals("last")) {
+                            System.out.println(trade);
+                            trade = input.readLine();
+                        }
                     }
                 }
             } while (!userInput.equals("exit"));

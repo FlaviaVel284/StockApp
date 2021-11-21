@@ -36,4 +36,11 @@ public class Stock {
         return Double.compare(stock.price, price) == 0;
     }
 
+    @Override
+    public String toString() {
+        return "Stock{" +
+                "number=" + number +
+                ", price=" + price +
+                '}';
+    }
 }

@@ -4,7 +4,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class Main {
+public class ServerMain {
 
     public static final int PORT = 5000;
     public static StockMarket stockMarket;

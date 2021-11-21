@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Main {
+public class ClientMain {
 
     public static final String ADDRESS = "localhost";
     public static final int PORT = 5000;

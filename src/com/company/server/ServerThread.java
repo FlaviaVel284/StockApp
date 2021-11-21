@@ -47,7 +47,7 @@ public class ServerThread extends Thread {
                     break;
                 }
 
-                printToAllClients(outputString);
+                // printToAllClients(outputString);
                 System.out.println("Server recieved " + outputString);
             }
 

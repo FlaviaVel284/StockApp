@@ -1,4 +1,4 @@
-package com.company.server;
+package com.company.models;
 
 public class Stock {
 

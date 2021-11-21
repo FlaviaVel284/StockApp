@@ -21,23 +21,36 @@ public class ClientMain {
             String userInput;
             String response;
             String clientName = "empty";
-            ClientThread clientThread = new ClientThread(socket);
-            clientThread.start();
 
             do {
                 if (clientName.equals("empty")) {
-                    System.out.println("Enter your name ");
+                    System.out.print("Enter your name ");
                     userInput = scanner.nextLine();
                     clientName = userInput;
                     if (userInput.equals("exit")) {
                         break;
                     }
                 } else {
-                    String message = ( "(" + clientName + ")" + " message: " );
-                    System.out.println(message);
+                    System.out.print("Enter your option (buy, sell, exit): ");
                     userInput = scanner.nextLine();
-                    output.println(message + userInput);
+
                     if (userInput.equals("exit")) {
+                        break;
+                    }
+
+                    if (userInput.equals("buy")) {
+                        System.out.print("Enter the price you want to buy at: ");
+                        String priceInput = scanner.nextLine();
+                        System.out.print("Enter the quantity you want to buy: ");
+                        String quantityInput = scanner.nextLine();
+                        break;
+                    }
+
+                    if (userInput.equals("sell")) {
+                        System.out.print("Enter the price you want to sell at: ");
+                        String priceInput = scanner.nextLine();
+                        System.out.print("Enter the quantity you want to sell: ");
+                        String quantityInput = scanner.nextLine();
                         break;
                     }
                 }

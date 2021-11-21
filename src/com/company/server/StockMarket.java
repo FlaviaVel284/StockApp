@@ -1,5 +1,7 @@
 package com.company.server;
 
+import com.company.models.Stock;
+
 import java.util.ArrayList;
 
 public class StockMarket {

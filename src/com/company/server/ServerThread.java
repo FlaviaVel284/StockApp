@@ -58,7 +58,7 @@ public class ServerThread extends Thread {
             }
 
         } catch (Exception e) {
-            System.out.println("Error occured " + e.getStackTrace());
+            System.out.println("Error occured in server thread (run): " + e.toString());
         }
     }
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class ServerMain {
 
     public static final int PORT = 5000;
-    public static StockMarket stockMarket;
+    public static StockMarket stockMarket = new StockMarket();
 
     public static void main(String[] args) {
 
@@ -21,7 +21,7 @@ public class ServerMain {
                 serverThread.start();
             }
         } catch (Exception e) {
-            System.out.println("Error occured in main: " + e.getStackTrace());
+            System.out.println("Error occured in server main: " + e.toString());
         }
 
     }

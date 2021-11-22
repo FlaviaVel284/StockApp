@@ -24,7 +24,7 @@ public class ClientMain {
 
             do {
                 if (clientName.equals("empty")) {
-                    System.out.print("Enter your name ");
+                    System.out.print("Enter your name: ");
                     userInput = scanner.nextLine();
                     clientName = userInput;
                     if (userInput.equals("exit")) {

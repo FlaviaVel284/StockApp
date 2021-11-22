@@ -15,7 +15,7 @@ public class StockMarket {
     }
 
     void buyAt(double number, double price) {
-        /*if(!offers.isEmpty())
+        if(!offers.isEmpty())
             for (Stock s : offers) {
                 if (s.getPrice() == price) {
                     if (s.getNumber() > number) {
@@ -35,12 +35,12 @@ public class StockMarket {
                 }
             }
         else
-            requests.add(new Stock(number, price));*/
-        requests.add(new Stock(number, price));
+            requests.add(new Stock(number, price));
+        //requests.add(new Stock(number, price));
     }
 
     void sellAt(double number, double price) {
-        /*if(!requests.isEmpty())
+        if(!requests.isEmpty())
             for (Stock s : requests) {
                 if (s.getPrice() == price) {
                     if (s.getNumber() > number) {
@@ -60,8 +60,8 @@ public class StockMarket {
                 }
             }
         else
-            offers.add(new Stock(number, price));*/
-        offers.add(new Stock(number, price));
+            offers.add(new Stock(number, price));
+        //offers.add(new Stock(number, price));
     }
 
     public ArrayList<Stock> getOffers() {

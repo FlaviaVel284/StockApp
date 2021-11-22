@@ -35,6 +35,7 @@ public class ServerThread extends Thread {
             while (true) {
                 String outputString = input.readLine();
                 if (outputString.equals("exit")) {
+                    System.out.println("...client exited");
                     break;
                 }
 

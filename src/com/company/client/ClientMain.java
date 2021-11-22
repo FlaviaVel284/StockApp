@@ -66,6 +66,7 @@ public class ClientMain {
                             trade = input.readLine();
                         }
                     }
+
                     System.out.println();
                 }
             } while (!userInput.equals("exit"));

@@ -24,18 +24,18 @@ public class ClientMain {
 
             do {
                 if (clientName.equals("empty")) {
-                    System.out.print("Enter your name ");
+                    System.out.print("Enter your name: ");
                     userInput = scanner.nextLine();
                     clientName = userInput;
                     if (userInput.equals("exit")) {
                         break;
                     }
                 } else {
-                    System.out.print("Enter your option (buy, sell, exit): ");
+                    System.out.print("Enter your option (buy/sell/trades/exit): ");
                     userInput = scanner.nextLine();
 
                     if (userInput.equals("exit")) {
-                        break;
+                        output.println("exit");
                     }
 
                     if (userInput.equals("buy")) {
@@ -66,6 +66,8 @@ public class ClientMain {
                             trade = input.readLine();
                         }
                     }
+
+                    System.out.println();
                 }
             } while (!userInput.equals("exit"));
 

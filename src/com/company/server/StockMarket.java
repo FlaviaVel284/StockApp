@@ -15,45 +15,53 @@ public class StockMarket {
     }
 
     void buyAt(double number, double price) {
-        for (Stock s : offers) {
-            if (s.getPrice() == price) {
-                if (s.getNumber() > number) {
-                    s.setNumber(s.getNumber() - number);
-                    System.out.println(number + " stocks bought at " + price);
-                } else if (s.getNumber() < number) {
-                    System.out.println("Not enough stocks, only " + s.getNumber() + " stocks bought at " + price);
-                    requests.add(new Stock(number - s.getNumber(), price));
-                    offers.remove(s);
+        if(!offers.isEmpty())
+            for (Stock s : offers) {
+                if (s.getPrice() == price) {
+                    if (s.getNumber() > number) {
+                        s.setNumber(s.getNumber() - number);
+                        System.out.println(number + " stocks bought at " + price);
+                    } else if (s.getNumber() < number) {
+                        System.out.println("Not enough stocks, only " + s.getNumber() + " stocks bought at " + price);
+                        requests.add(new Stock(number - s.getNumber(), price));
+                        offers.remove(s);
+                    } else {
+                        System.out.println("All " + number + " stocks bought at " + price);
+                        offers.remove(s);
+                    }
+                    break;
                 } else {
-                    System.out.println("All " + number + " stocks bought at " + price);
-                    offers.remove(s);
+                    requests.add(new Stock(number, price));
                 }
-                break;
-            } else {
-                requests.add(new Stock(number, price));
             }
-        }
+        else
+            requests.add(new Stock(number, price));
+        //requests.add(new Stock(number, price));
     }
 
     void sellAt(double number, double price) {
-        for (Stock s : requests) {
-            if (s.getPrice() == price) {
-                if (s.getNumber() > number) {
-                    s.setNumber(s.getNumber() - number);
-                    System.out.println("All " + number + " stocks sold at " + price);
-                } else if (s.getNumber() < number) {
-                    System.out.println("Not enough stocks, only " + s.getNumber() + " stocks sold at " + price);
-                    offers.add(new Stock(number - s.getNumber(), price));
-                    requests.remove(s);
+        if(!requests.isEmpty())
+            for (Stock s : requests) {
+                if (s.getPrice() == price) {
+                    if (s.getNumber() > number) {
+                        s.setNumber(s.getNumber() - number);
+                        System.out.println("All " + number + " stocks sold at " + price);
+                    } else if (s.getNumber() < number) {
+                        System.out.println("Not enough stocks, only " + s.getNumber() + " stocks sold at " + price);
+                        offers.add(new Stock(number - s.getNumber(), price));
+                        requests.remove(s);
+                    } else {
+                        System.out.println("All " + number + " stocks sold at " + price);
+                        requests.remove(s);
+                    }
+                    break;
                 } else {
-                    System.out.println("All " + number + " stocks sold at " + price);
-                    requests.remove(s);
+                    offers.add(new Stock(number, price));
                 }
-                break;
-            } else {
-                offers.add(new Stock(number, price));
             }
-        }
+        else
+            offers.add(new Stock(number, price));
+        //offers.add(new Stock(number, price));
     }
 
     public ArrayList<Stock> getOffers() {

@@ -31,11 +31,11 @@ public class ClientMain {
                         break;
                     }
                 } else {
-                    System.out.print("Enter your option (buy, sell, exit): ");
+                    System.out.print("Enter your option (buy/sell/trades/exit): ");
                     userInput = scanner.nextLine();
 
                     if (userInput.equals("exit")) {
-                        break;
+                        output.println("exit");
                     }
 
                     if (userInput.equals("buy")) {
@@ -66,6 +66,7 @@ public class ClientMain {
                             trade = input.readLine();
                         }
                     }
+                    System.out.println();
                 }
             } while (!userInput.equals("exit"));
 

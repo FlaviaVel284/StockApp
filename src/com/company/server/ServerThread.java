@@ -34,18 +34,17 @@ public class ServerThread extends Thread {
 
             while (true) {
                 String outputString = input.readLine();
-                System.out.println(outputString);
                 if (outputString.equals("exit")) {
                     break;
                 }
 
                 if (outputString.equals("buy")) {
-                    System.out.println("Enter buy details: ");
+                    System.out.println("...server handles buy request");
                     handleBuy(input, output);
                 }
 
                 if (outputString.equals("sell")) {
-                    System.out.println("Enter sell details: ");
+                    System.out.println("...server handles sell request");
                     handleSell(input, output);
                 }
 
@@ -53,8 +52,7 @@ public class ServerThread extends Thread {
                     handleTrades(input, output);
                 }
 
-                // printToAllClients(outputString);
-                System.out.println("Server recieved " + outputString);
+                System.out.println();
             }
 
         } catch (Exception e) {
@@ -63,22 +61,26 @@ public class ServerThread extends Thread {
     }
 
     private void handleBuy(BufferedReader input, PrintWriter output) throws IOException {
-        System.out.print("Number of stocks: ");
+
         double number = parseDouble(input.readLine());
-        System.out.println(number);
-        System.out.print("Price per stocks: ");
         double price = parseDouble(input.readLine());
+
+        System.out.print("Number of stocks: ");
+        System.out.println(number);
+        System.out.print("Price per stock: ");
         System.out.println(price);
 
         stockMarket.buyAt(number, price);
     }
 
     private void handleSell(BufferedReader input, PrintWriter output) throws IOException {
-        System.out.print("Number of stocks: ");
+
         double number = parseDouble(input.readLine());
-        System.out.println(number);
-        System.out.print("Price per stocks: ");
         double price = parseDouble(input.readLine());
+
+        System.out.print("Number of stocks: ");
+        System.out.println(number);
+        System.out.print("Price per stock: ");
         System.out.println(price);
 
         stockMarket.sellAt(number, price);

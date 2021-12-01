@@ -26,7 +26,7 @@ public class StockMarket {
                 ArrayList<Stock> specificOffers = offers.get(request.getPrice());
                 for (Stock offer : specificOffers) {
                     if (offer.getNumber() >= request.getNumber()) {
-                        history.add(offer.toString() + " sold to " + request.getName());
+                        history.add(request.toString() + " bought from " + offer.getName());
                         offer.setNumber(offer.getNumber() - request.getNumber());
                         requestsToDelete.add(request);
                     } else {

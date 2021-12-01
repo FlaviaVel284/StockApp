@@ -2,15 +2,21 @@ package com.company.models;
 
 public class Stock {
 
+    private String name;
     private double number;
     private double price;
 
     public Stock() {}
 
-    public Stock(double number, double price) {
+    public Stock(String name, double number, double price) {
+        this.name = name;
         this.number = number;
         this.price = price;
     }
+
+    public String getName() {return name; }
+
+    public void setName(String name) {this.name = name; }
 
     public double getNumber() {
         return number;
@@ -33,13 +39,14 @@ public class Stock {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Stock stock = (Stock) o;
-        return Double.compare(stock.price, price) == 0;
+        return Double.compare(stock.number, number) == 0;
     }
 
     @Override
     public String toString() {
         return "Stock{" +
-                "number=" + number +
+                "name=" + name +
+                ", number=" + number +
                 ", price=" + price +
                 '}';
     }

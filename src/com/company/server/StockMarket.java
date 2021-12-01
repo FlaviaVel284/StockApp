@@ -3,68 +3,56 @@ package com.company.server;
 import com.company.models.Stock;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class StockMarket {
 
-    private ArrayList<Stock> offers;
     private ArrayList<Stock> requests;
+    private ConcurrentMap<Double, ArrayList<Stock>> offers;
 
     public StockMarket() {
-        this.offers = new ArrayList<>();
+        this.offers = new ConcurrentHashMap<>();
         this.requests = new ArrayList<>();
     }
 
-    void buyAt(double number, double price) {
-        if(!offers.isEmpty())
-            for (Stock s : offers) {
-                if (s.getPrice() == price) {
-                    if (s.getNumber() > number) {
-                        s.setNumber(s.getNumber() - number);
-                        System.out.println(number + " stocks bought at " + price);
-                    } else if (s.getNumber() < number) {
-                        System.out.println("Not enough stocks, only " + s.getNumber() + " stocks bought at " + price);
-                        requests.add(new Stock(number - s.getNumber(), price));
-                        offers.remove(s);
+    void processTrades(){
+        ArrayList<Stock> requestsToDelete = new ArrayList<>();
+        ArrayList<Stock> offersToDelete = new ArrayList<>();
+        for(Stock request: requests){
+            if(offers.containsKey(request.getPrice())) {
+                ArrayList<Stock> specificOffers = offers.get(request.getPrice());
+                for (Stock offer : specificOffers) {
+                    if (offer.getNumber() >= request.getNumber()) {
+                        System.out.println("Request: " + request.toString() + " completely fulfilled.");
+                        offer.setNumber(offer.getNumber() - request.getNumber());
+                        requestsToDelete.add(request);
                     } else {
-                        System.out.println("All " + number + " stocks bought at " + price);
-                        offers.remove(s);
+                        System.out.println("Offer: " + offer.toString() + " sold.");
+                        request.setNumber(request.getNumber() - offer.getNumber());
+                        offersToDelete.add(offer);
                     }
-                    break;
-                } else {
-                    requests.add(new Stock(number, price));
                 }
+                System.out.println("To delete: " + offersToDelete);
+                specificOffers.removeAll(offersToDelete);
+                System.out.println("Offers: " + specificOffers);
             }
-        else
-            requests.add(new Stock(number, price));
-        //requests.add(new Stock(number, price));
+        }
+
+        requests.removeAll(requestsToDelete);
     }
 
-    void sellAt(double number, double price) {
-        if(!requests.isEmpty())
-            for (Stock s : requests) {
-                if (s.getPrice() == price) {
-                    if (s.getNumber() > number) {
-                        s.setNumber(s.getNumber() - number);
-                        System.out.println("All " + number + " stocks sold at " + price);
-                    } else if (s.getNumber() < number) {
-                        System.out.println("Not enough stocks, only " + s.getNumber() + " stocks sold at " + price);
-                        offers.add(new Stock(number - s.getNumber(), price));
-                        requests.remove(s);
-                    } else {
-                        System.out.println("All " + number + " stocks sold at " + price);
-                        requests.remove(s);
-                    }
-                    break;
-                } else {
-                    offers.add(new Stock(number, price));
-                }
-            }
-        else
-            offers.add(new Stock(number, price));
-        //offers.add(new Stock(number, price));
+    void buyAt(String name, double number, double price) {
+        requests.add(new Stock(name, number, price));
+        processTrades();
     }
 
-    public ArrayList<Stock> getOffers() {
+    void sellAt(String name, double number, double price) {
+        offers.putIfAbsent(price, new ArrayList<Stock>());
+        offers.get(price).add(new Stock(name, number, price));
+    }
+
+    public ConcurrentMap<Double, ArrayList<Stock>> getOffers() {
         return offers;
     }
 

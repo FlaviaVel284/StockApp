@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class ClientMain {
 
@@ -43,7 +44,9 @@ public class ClientMain {
                         String priceInput = scanner.nextLine();
                         System.out.print("Enter the quantity you want to buy: ");
                         String quantityInput = scanner.nextLine();
+
                         output.println("buy");
+                        output.println(clientName);
                         output.println(quantityInput);
                         output.println(priceInput);
                     }
@@ -53,7 +56,9 @@ public class ClientMain {
                         String priceInput = scanner.nextLine();
                         System.out.print("Enter the quantity you want to sell: ");
                         String quantityInput = scanner.nextLine();
+
                         output.println("sell");
+                        output.println(clientName);
                         output.println(quantityInput);
                         output.println(priceInput);
                     }

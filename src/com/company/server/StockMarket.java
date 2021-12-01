@@ -33,12 +33,9 @@ public class StockMarket {
                         offersToDelete.add(offer);
                     }
                 }
-                System.out.println("To delete: " + offersToDelete);
                 specificOffers.removeAll(offersToDelete);
-                System.out.println("Offers: " + specificOffers);
             }
         }
-
         requests.removeAll(requestsToDelete);
     }
 
@@ -50,6 +47,7 @@ public class StockMarket {
     void sellAt(String name, double number, double price) {
         offers.putIfAbsent(price, new ArrayList<Stock>());
         offers.get(price).add(new Stock(name, number, price));
+        processTrades();
     }
 
     public ConcurrentMap<Double, ArrayList<Stock>> getOffers() {

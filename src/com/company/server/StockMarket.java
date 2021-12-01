@@ -3,6 +3,7 @@ package com.company.server;
 import com.company.models.Stock;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -19,26 +20,29 @@ public class StockMarket {
     }
 
     void processTrades(){
-        ArrayList<Stock> requestsToDelete = new ArrayList<>();
-        ArrayList<Stock> offersToDelete = new ArrayList<>();
-        for(Stock request: requests){
+        Iterator<Stock> stockIterator = requests.iterator();
+        while(stockIterator.hasNext()){
+            Stock request = stockIterator.next();
             if(offers.containsKey(request.getPrice())) {
-                ArrayList<Stock> specificOffers = offers.get(request.getPrice());
-                for (Stock offer : specificOffers) {
-                    if (offer.getNumber() >= request.getNumber()) {
+                Iterator<Stock> offersIterator = offers.get(request.getPrice()).iterator();
+                while(offersIterator.hasNext()) {
+                    Stock offer = offersIterator.next();
+                    if (offer.getNumber() > request.getNumber()) {
                         history.add(request.toString() + " bought from " + offer.getName());
                         offer.setNumber(offer.getNumber() - request.getNumber());
-                        requestsToDelete.add(request);
-                    } else {
+                        stockIterator.remove();
+                    } else if(offer.getNumber() < request.getNumber()){
                         history.add(offer.toString() + " sold to " + request.getName());
                         request.setNumber(request.getNumber() - offer.getNumber());
-                        offersToDelete.add(offer);
+                        offersIterator.remove();
+                    } else if(offer.getNumber() == request.getNumber()){
+                        history.add(offer.toString() + " sold to " + request.getName());
+                        stockIterator.remove();
+                        offersIterator.remove();
                     }
                 }
-                specificOffers.removeAll(offersToDelete);
             }
         }
-        requests.removeAll(requestsToDelete);
     }
 
     void buyAt(String name, double number, double price) {

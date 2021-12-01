@@ -1,10 +1,14 @@
 package com.company.models;
 
+import java.util.Objects;
+import java.sql.Timestamp;
+
 public class Stock {
 
     private String name;
     private double number;
     private double price;
+    private Timestamp timestamp;
 
     public Stock() {}
 
@@ -12,6 +16,7 @@ public class Stock {
         this.name = name;
         this.number = number;
         this.price = price;
+        this.timestamp = new Timestamp(System.currentTimeMillis());
     }
 
     public String getName() {return name; }
@@ -39,7 +44,7 @@ public class Stock {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Stock stock = (Stock) o;
-        return Double.compare(stock.number, number) == 0;
+        return Double.compare(stock.number, number) == 0 && Double.compare(stock.price, price) == 0 && Objects.equals(name, stock.name) && Objects.equals(timestamp, stock.timestamp);
     }
 
     @Override
@@ -48,6 +53,7 @@ public class Stock {
                 "name=" + name +
                 ", number=" + number +
                 ", price=" + price +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }

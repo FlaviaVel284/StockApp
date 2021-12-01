@@ -32,7 +32,7 @@ public class ClientMain {
                         break;
                     }
                 } else {
-                    System.out.print("Enter your option (buy/sell/trades/exit): ");
+                    System.out.print("Enter your option (buy/sell/trades/history/exit): ");
                     userInput = scanner.nextLine();
 
                     if (userInput.equals("exit")) {
@@ -65,6 +65,15 @@ public class ClientMain {
 
                     if (userInput.equals("trades")) {
                         output.println("trades");
+                        String trade = input.readLine();
+                        while (!trade.equals("last")) {
+                            System.out.println(trade);
+                            trade = input.readLine();
+                        }
+                    }
+
+                    if (userInput.equals("history")) {
+                        output.println("history");
                         String trade = input.readLine();
                         while (!trade.equals("last")) {
                             System.out.println(trade);

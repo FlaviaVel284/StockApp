@@ -10,10 +10,12 @@ public class StockMarket {
 
     private ArrayList<Stock> requests;
     private ConcurrentMap<Double, ArrayList<Stock>> offers;
+    private ArrayList<String> history;
 
     public StockMarket() {
         this.offers = new ConcurrentHashMap<>();
         this.requests = new ArrayList<>();
+        this.history = new ArrayList<>();
     }
 
     void processTrades(){
@@ -24,11 +26,11 @@ public class StockMarket {
                 ArrayList<Stock> specificOffers = offers.get(request.getPrice());
                 for (Stock offer : specificOffers) {
                     if (offer.getNumber() >= request.getNumber()) {
-                        System.out.println("Request: " + request.toString() + " completely fulfilled.");
+                        history.add(offer.toString() + " sold to " + request.getName());
                         offer.setNumber(offer.getNumber() - request.getNumber());
                         requestsToDelete.add(request);
                     } else {
-                        System.out.println("Offer: " + offer.toString() + " sold.");
+                        history.add(offer.toString() + " sold to " + request.getName());
                         request.setNumber(request.getNumber() - offer.getNumber());
                         offersToDelete.add(offer);
                     }
@@ -57,4 +59,6 @@ public class StockMarket {
     public ArrayList<Stock> getRequests() {
         return requests;
     }
+
+    public ArrayList<String> getHistory() { return history; }
 }

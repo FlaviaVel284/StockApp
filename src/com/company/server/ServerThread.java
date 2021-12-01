@@ -54,6 +54,10 @@ public class ServerThread extends Thread {
                     handleTrades(input, output);
                 }
 
+                if (outputString.equals("history")) {
+                    handleHistory(input, output);
+                }
+
                 System.out.println();
             }
 
@@ -101,6 +105,15 @@ public class ServerThread extends Thread {
         output.println("------ REQUESTS ------");
         for (Stock o : requests) {
             output.println(o.toString());
+        }
+        output.println("last");
+    }
+
+    private void handleHistory(BufferedReader input, PrintWriter output) throws IOException {
+        ArrayList<String> history = stockMarket.getHistory();
+        output.println("------ HISTORY OF TRADES ------");
+        for (String s : history) {
+            output.println(s.toString());
         }
         output.println("last");
     }

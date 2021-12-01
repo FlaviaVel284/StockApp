@@ -30,15 +30,19 @@ public class StockMarket {
                     if (offer.getNumber() > request.getNumber()) {
                         history.add(request.toString() + " bought from " + offer.getName());
                         offer.setNumber(offer.getNumber() - request.getNumber());
-                        stockIterator.remove();
+                        //stockIterator.remove();
+                        request.setNumber(0.0);
                     } else if(offer.getNumber() < request.getNumber()){
                         history.add(offer.toString() + " sold to " + request.getName());
                         request.setNumber(request.getNumber() - offer.getNumber());
-                        offersIterator.remove();
+                        //offersIterator.remove();
+                        offer.setNumber(0.0);
                     } else if(offer.getNumber() == request.getNumber()){
                         history.add(offer.toString() + " sold to " + request.getName());
-                        stockIterator.remove();
-                        offersIterator.remove();
+                        //stockIterator.remove();
+                        //offersIterator.remove();
+                        request.setNumber(0.0);
+                        offer.setNumber(0.0);
                     }
                 }
             }

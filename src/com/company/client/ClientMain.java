@@ -72,7 +72,7 @@ public class ClientMain {
             } while (!userInput.equals("exit"));
 
         } catch (Exception e) {
-            System.out.println("Exception occured in client main: " + e.getStackTrace());
+            System.out.println("Exception in client main: " + e);
         }
     }
 

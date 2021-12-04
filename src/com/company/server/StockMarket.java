@@ -28,21 +28,21 @@ public class StockMarket {
                 while(offersIterator.hasNext()) {
                     Stock offer = offersIterator.next();
                     if (offer.getNumber() > request.getNumber()) {
-                        history.add(request.toString() + " bought from " + offer.getName());
+                        history.add(offer.getName() + " sold to " + request.toString() + " 1");
                         offer.setNumber(offer.getNumber() - request.getNumber());
-                        //stockIterator.remove();
-                        request.setNumber(0.0);
+                        stockIterator.remove();
+                        //request.setNumber(0.0);
                     } else if(offer.getNumber() < request.getNumber()){
-                        history.add(offer.toString() + " sold to " + request.getName());
+                        history.add(offer.toString() + " sold to " + request.getName() + " 2");
                         request.setNumber(request.getNumber() - offer.getNumber());
-                        //offersIterator.remove();
-                        offer.setNumber(0.0);
+                        offersIterator.remove();
+                        //offer.setNumber(0.0);
                     } else if(offer.getNumber() == request.getNumber()){
-                        history.add(offer.toString() + " sold to " + request.getName());
-                        //stockIterator.remove();
-                        //offersIterator.remove();
-                        request.setNumber(0.0);
-                        offer.setNumber(0.0);
+                        history.add(offer.toString() + " sold to " + request.getName() + " 3");
+                        stockIterator.remove();
+                        offersIterator.remove();
+                        //request.setNumber(0.0);
+                        //offer.setNumber(0.0);
                     }
                 }
             }
@@ -51,6 +51,11 @@ public class StockMarket {
 
     void buyAt(String name, double number, double price) {
         requests.add(new Stock(name, number, price));
+        try {
+            Thread.sleep(5000);
+        } catch(Exception e){
+            System.out.println(e);
+        }
         processTrades();
     }
 

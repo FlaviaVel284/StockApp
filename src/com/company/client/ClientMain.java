@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class ClientMain {
 
@@ -31,7 +32,7 @@ public class ClientMain {
                         break;
                     }
                 } else {
-                    System.out.print("Enter your option (buy/sell/trades/exit): ");
+                    System.out.print("Enter your option (buy/sell/trades/history/exit): ");
                     userInput = scanner.nextLine();
 
                     if (userInput.equals("exit")) {
@@ -43,7 +44,9 @@ public class ClientMain {
                         String priceInput = scanner.nextLine();
                         System.out.print("Enter the quantity you want to buy: ");
                         String quantityInput = scanner.nextLine();
+
                         output.println("buy");
+                        output.println(clientName);
                         output.println(quantityInput);
                         output.println(priceInput);
                     }
@@ -53,7 +56,9 @@ public class ClientMain {
                         String priceInput = scanner.nextLine();
                         System.out.print("Enter the quantity you want to sell: ");
                         String quantityInput = scanner.nextLine();
+
                         output.println("sell");
+                        output.println(clientName);
                         output.println(quantityInput);
                         output.println(priceInput);
                     }
@@ -67,12 +72,21 @@ public class ClientMain {
                         }
                     }
 
+                    if (userInput.equals("history")) {
+                        output.println("history");
+                        String trade = input.readLine();
+                        while (!trade.equals("last")) {
+                            System.out.println(trade);
+                            trade = input.readLine();
+                        }
+                    }
+
                     System.out.println();
                 }
             } while (!userInput.equals("exit"));
 
         } catch (Exception e) {
-            System.out.println("Exception occured in client main: " + e.getStackTrace());
+            System.out.println("Exception in client main: " + e);
         }
     }
 

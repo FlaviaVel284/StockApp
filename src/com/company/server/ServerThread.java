@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentMap;
 
 import static java.lang.Double.parseDouble;
 
@@ -53,6 +54,10 @@ public class ServerThread extends Thread {
                     handleTrades(input, output);
                 }
 
+                if (outputString.equals("history")) {
+                    handleHistory(input, output);
+                }
+
                 System.out.println();
             }
 
@@ -63,6 +68,7 @@ public class ServerThread extends Thread {
 
     private void handleBuy(BufferedReader input, PrintWriter output) throws IOException {
 
+        String name = input.readLine();
         double number = parseDouble(input.readLine());
         double price = parseDouble(input.readLine());
 
@@ -71,11 +77,12 @@ public class ServerThread extends Thread {
         System.out.print("Price per stock: ");
         System.out.println(price);
 
-        stockMarket.buyAt(number, price);
+        stockMarket.buyAt(name, number, price);
     }
 
     private void handleSell(BufferedReader input, PrintWriter output) throws IOException {
 
+        String name = input.readLine();
         double number = parseDouble(input.readLine());
         double price = parseDouble(input.readLine());
 
@@ -84,19 +91,29 @@ public class ServerThread extends Thread {
         System.out.print("Price per stock: ");
         System.out.println(price);
 
-        stockMarket.sellAt(number, price);
+        stockMarket.sellAt(name, number, price);
     }
 
     private void handleTrades(BufferedReader input, PrintWriter output) throws IOException {
-        ArrayList<Stock> offers = stockMarket.getOffers();
+        ConcurrentMap<Double, ArrayList<Stock>> offers = stockMarket.getOffers();
         ArrayList<Stock> requests = stockMarket.getRequests();
         output.println("------ OFFERS ------");
-        for (Stock o : offers) {
-            output.println(o.toString());
+        for(double key: offers.keySet()) {
+            output.print("Offers for price: " + key + ": ");
+            output.println(offers.get(key));
         }
         output.println("------ REQUESTS ------");
         for (Stock o : requests) {
             output.println(o.toString());
+        }
+        output.println("last");
+    }
+
+    private void handleHistory(BufferedReader input, PrintWriter output) throws IOException {
+        ArrayList<String> history = stockMarket.getHistory();
+        output.println("------ HISTORY OF TRADES ------");
+        for (String s : history) {
+            output.println(s.toString());
         }
         output.println("last");
     }

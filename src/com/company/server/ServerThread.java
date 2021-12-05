@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 import static java.lang.Double.parseDouble;
@@ -95,8 +96,8 @@ public class ServerThread extends Thread {
     }
 
     private void handleTrades(BufferedReader input, PrintWriter output) throws IOException {
-        ConcurrentMap<Double, ArrayList<Stock>> offers = stockMarket.getOffers();
-        ConcurrentMap<Double, ArrayList<Stock>> requests = stockMarket.getRequests();
+        ConcurrentMap<Double, List<Stock>> offers = stockMarket.getOffers();
+        ConcurrentMap<Double, List<Stock>> requests = stockMarket.getRequests();
         output.println("------ OFFERS ------");
         for(double key: offers.keySet()) {
             output.print("Offers for price: " + key + ": ");
@@ -104,7 +105,7 @@ public class ServerThread extends Thread {
         }
         output.println("------ REQUESTS ------");
         for(double key: requests.keySet()) {
-            output.print("Offers for price: " + key + ": ");
+            output.print("Requests for price: " + key + ": ");
             output.println(requests.get(key));
         }
         output.println("last");

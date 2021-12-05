@@ -3,14 +3,16 @@ package com.company.server;
 import com.company.models.Stock;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class StockMarket {
 
-    private ConcurrentMap<Double, ArrayList<Stock>> requests;
-    private ConcurrentMap<Double, ArrayList<Stock>> offers;
+    private ConcurrentMap<Double, List<Stock>> requests;
+    private ConcurrentMap<Double, List<Stock>> offers;
     private ArrayList<String> history;
 
     public StockMarket() {
@@ -48,22 +50,22 @@ public class StockMarket {
     }
 
     void buyAt(String name, double number, double price) {
-        requests.putIfAbsent(price, new ArrayList<Stock>());
+        requests.putIfAbsent(price, Collections.synchronizedList(new ArrayList<Stock>()));
         requests.get(price).add(new Stock(name, number, price));
         processTrades(price);
     }
 
     void sellAt(String name, double number, double price) {
-        offers.putIfAbsent(price, new ArrayList<Stock>());
+        offers.putIfAbsent(price, Collections.synchronizedList(new ArrayList<Stock>()));
         offers.get(price).add(new Stock(name, number, price));
         processTrades(price);
     }
 
-    public ConcurrentMap<Double, ArrayList<Stock>> getOffers() {
+    public ConcurrentMap<Double, List<Stock>> getOffers() {
         return offers;
     }
 
-    public ConcurrentMap<Double, ArrayList<Stock>> getRequests() {
+    public ConcurrentMap<Double, List<Stock>> getRequests() {
         return requests;
     }
 

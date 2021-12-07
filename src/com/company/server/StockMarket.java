@@ -24,24 +24,26 @@ public class StockMarket {
     void processTrades(double price){
         if(requests.containsKey(price)) {
             Iterator<Stock> stockIterator = requests.get(price).iterator();
-            while (stockIterator.hasNext()) {
-                Stock request = stockIterator.next();
-                if (offers.containsKey(request.getPrice())) {
-                    Iterator<Stock> offersIterator = offers.get(request.getPrice()).iterator();
-                    while (offersIterator.hasNext()) {
-                        Stock offer = offersIterator.next();
-                        if (offer.getNumber() > request.getNumber()) {
-                            offer.setNumber(offer.getNumber() - request.getNumber());
-                            history.add(offer.getName() + " sold to " + request.getName() + ": " + request.getNumber() + " stocks at " + request.getPrice() + "$.");
-                            stockIterator.remove();
-                        } else if (offer.getNumber() < request.getNumber()) {
-                            history.add(offer.getName() + " sold to " + request.getName() + ": " + offer.getNumber() + " stocks at " + request.getPrice() + "$.");
-                            request.setNumber(request.getNumber() - offer.getNumber());
-                            offersIterator.remove();
-                        } else {
-                            history.add(offer.toString() + " sold to " + request.getName() + ": " + offer.getNumber() + " stocks at " + request.getPrice() + "$.");
-                            stockIterator.remove();
-                            offersIterator.remove();
+            synchronized (requests.get(price)) {
+                while (stockIterator.hasNext()) {
+                    Stock request = stockIterator.next();
+                    if (offers.containsKey(request.getPrice())) {
+                        Iterator<Stock> offersIterator = offers.get(request.getPrice()).iterator();
+                        while (offersIterator.hasNext()) {
+                            Stock offer = offersIterator.next();
+                            if (offer.getNumber() > request.getNumber()) {
+                                offer.setNumber(offer.getNumber() - request.getNumber());
+                                history.add(offer.getName() + " sold to " + request.getName() + ": " + request.getNumber() + " stocks at " + request.getPrice() + "$.");
+                                stockIterator.remove();
+                            } else if (offer.getNumber() < request.getNumber()) {
+                                history.add(offer.getName() + " sold to " + request.getName() + ": " + offer.getNumber() + " stocks at " + request.getPrice() + "$.");
+                                request.setNumber(request.getNumber() - offer.getNumber());
+                                offersIterator.remove();
+                            } else {
+                                history.add(offer.toString() + " sold to " + request.getName() + ": " + offer.getNumber() + " stocks at " + request.getPrice() + "$.");
+                                stockIterator.remove();
+                                offersIterator.remove();
+                            }
                         }
                     }
                 }

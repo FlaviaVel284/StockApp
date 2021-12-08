@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -32,7 +33,7 @@ public class ClientMain {
                         break;
                     }
                 } else {
-                    System.out.print("Enter your option (buy/sell/trades/history/exit): ");
+                    System.out.print("Enter your option (buy/sell/trades/history/edit/exit): ");
                     userInput = scanner.nextLine();
 
                     if (userInput.equals("exit")) {
@@ -78,6 +79,33 @@ public class ClientMain {
                         while (!trade.equals("last")) {
                             System.out.println(trade);
                             trade = input.readLine();
+                        }
+                    }
+
+                    if (userInput.equals("edit")) {
+                        output.println("edit");
+                        output.println(clientName);
+
+                        String trade = input.readLine();
+                        while (!trade.equals("last")) {
+                            System.out.println(trade);
+                            trade = input.readLine();
+                        }
+
+                        String branch = input.readLine();
+                        System.out.println(branch);
+                        if(!Objects.equals(branch, "You have no stocks on the market.")){
+                            System.out.print("Enter the number for the stock you want to edit: ");
+                            String stockNumber = scanner.nextLine();
+                            output.println(stockNumber);
+                            System.out.println("-----Editing the stock no " + stockNumber + "-----");
+                            System.out.print("Enter the new price: ");
+                            String price = scanner.nextLine();
+                            System.out.print("Enter the new quantity: ");
+                            String quantity = scanner.nextLine();
+
+                            output.println(price);
+                            output.println(quantity);
                         }
                     }
 

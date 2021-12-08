@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 
 import static java.lang.Double.parseDouble;
@@ -57,6 +58,10 @@ public class ServerThread extends Thread {
 
                 if (outputString.equals("history")) {
                     handleHistory(input, output);
+                }
+
+                if (outputString.equals("edit")){
+                    handleEdit(input, output);
                 }
 
                 System.out.println();
@@ -123,6 +128,77 @@ public class ServerThread extends Thread {
     private void printToAllClients(String outputString) {
         for (ServerThread serverThread : threadList) {
             serverThread.output.println(outputString);
+        }
+    }
+
+    private void handleEdit(BufferedReader input, PrintWriter output) throws IOException {
+        int stockNumber = 0, stockNumber2 = 0;
+        String name = input.readLine();
+        output.println("Stocks for: " + name);
+        ConcurrentMap<Double, List<Stock>> offers = stockMarket.getOffers();
+        ConcurrentMap<Double, List<Stock>> requests = stockMarket.getRequests();
+        output.println("------ OFFERS ------");
+        for(double key: offers.keySet()) {
+            for(Stock offer: offers.get(key))
+                if(Objects.equals(name, offer.getName())) {
+                    stockNumber += 1;
+                    output.println("(" + stockNumber + ")" + " " + offer);
+                }
+        }
+        output.println("------ REQUESTS ------");
+        for(double key: requests.keySet()) {
+            for(Stock request: requests.get(key))
+                if(Objects.equals(name, request.getName())) {
+                    stockNumber += 1;
+                    output.println("(" + stockNumber + ")" + " " + request);
+                }
+        }
+        output.println("last");
+
+        if(stockNumber > 0){
+            output.println("You have " + stockNumber + " stocks.");
+            String option = input.readLine();
+            System.out.println("Editing " + option);
+
+            double price = parseDouble(input.readLine());
+            double number = parseDouble(input.readLine());
+
+            List<Stock> edited = new ArrayList<>();
+            double selectedKey = 0.0;
+            for(double key: offers.keySet()) {
+                for(Stock offer: offers.get(key))
+                    if(Objects.equals(name, offer.getName())) {
+                        stockNumber2 += 1;
+                        if(Integer.valueOf(option) == stockNumber2){
+                            offer.setNumber(number);
+                            edited.add(offer);
+                            selectedKey = key;
+                            stockMarket.sellAt(name, number, price);
+                            break;
+                        }
+                    }
+            }
+            for(double key: requests.keySet()) {
+                for(Stock request: requests.get(key))
+                    if(Objects.equals(name, request.getName())) {
+                        stockNumber2 += 1;
+                        if(Integer.valueOf(option) == stockNumber2){
+                            request.setNumber(number);
+                            edited.add(request);
+                            selectedKey = key;
+                            stockMarket.buyAt(name, number, price);
+                            break;
+                        }
+                    }
+            }
+            if(offers.containsKey(selectedKey))
+                offers.get(selectedKey).removeAll(edited);
+            else if(requests.containsKey(selectedKey))
+                requests.get(selectedKey).removeAll(edited);
+
+
+        } else {
+            output.println("You have no stocks on the market.");
         }
     }
 

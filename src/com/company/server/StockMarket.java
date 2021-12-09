@@ -21,10 +21,13 @@ public class StockMarket {
         this.history = new ArrayList<>();
     }
 
-    void processTrades(double price){
+    void processTrades(double price) {
         if(requests.containsKey(price)) {
             Iterator<Stock> stockIterator = requests.get(price).iterator();
             synchronized (requests.get(price)) {
+                try {
+                    Thread.sleep(10000);
+                } catch(Exception e){}
                 while (stockIterator.hasNext()) {
                     Stock request = stockIterator.next();
                     if (offers.containsKey(request.getPrice())) {
@@ -40,7 +43,7 @@ public class StockMarket {
                                 request.setNumber(request.getNumber() - offer.getNumber());
                                 offersIterator.remove();
                             } else {
-                                history.add(offer.toString() + " sold to " + request.getName() + ": " + offer.getNumber() + " stocks at " + request.getPrice() + "$.");
+                                history.add(offer.getName() + " sold to " + request.getName() + ": " + offer.getNumber() + " stocks at " + request.getPrice() + "$.");
                                 stockIterator.remove();
                                 offersIterator.remove();
                             }
